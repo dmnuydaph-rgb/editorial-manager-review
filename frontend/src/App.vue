@@ -1,10 +1,18 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg-slate-100 full-height overflow-hidden select-none font-sans">
-    <!-- Gates (Intercept unverified access) -->
-    <DeviceGate />
-    <InvitationGate />
-    <EmailGateModal />
+  <div v-if="!store.isUnlocked" class="full-height full-width flex flex-center select-none font-sans" style="background-color: #00172B; height: 100vh; width: 100vw; overflow: hidden;">
+    <!-- Gates (Only one active at a time) -->
+    <DeviceGate v-if="store.isDeviceBlocked" />
+    <InvitationGate v-else-if="store.isNoTokenBlocked" />
+    <EmailGateModal v-else-if="store.isEmailGateOpen" />
+    
+    <!-- Loading spinner during initial assignment fetch -->
+    <div v-else class="column items-center q-gutter-y-md text-white">
+      <q-spinner-orbit color="amber-4" size="56px" />
+      <div class="text-caption text-grey-4">Connecting to Editorial Manager Workspace...</div>
+    </div>
+  </div>
 
+  <q-layout v-else view="hHh lpR fFf" class="bg-slate-100 full-height overflow-hidden select-none font-sans">
     <!-- Modals -->
     <SubmitConfirmModal />
     <CertificateModal />
@@ -78,6 +86,7 @@ html, body, #app {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  background-color: #00172B;
 }
 
 ::-webkit-scrollbar {

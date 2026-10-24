@@ -108,7 +108,6 @@ function handleManualSubmit() {
 
 <style scoped>
 .bg-slate-950-backdrop {
-  background-color: rgba(2, 6, 23, 0.94);
-  backdrop-filter: blur(8px);
+  background-color: #00172B !important;
 }
 </style>

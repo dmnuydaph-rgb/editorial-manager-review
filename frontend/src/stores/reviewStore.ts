@@ -78,6 +78,9 @@ export const useReviewStore = defineStore('review', {
     hasValidParams(state): boolean {
       return !!state.reviewId && !!state.token
     },
+    isUnlocked(state): boolean {
+      return !state.isDeviceBlocked && !state.isNoTokenBlocked && !state.isEmailGateOpen && !!state.assignment
+    },
     completionPercentage(state): number {
       let filled = 0
       const total = 5 + 4 + 2 + 1 // 5 criteria + 4 questions + 2 comments + 1 recommendation = 12 items
