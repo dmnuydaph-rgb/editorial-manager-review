@@ -122,11 +122,20 @@ switch ($action) {
 
         // --- EMAIL VERIFICATION GATE CHECK ---
         if (empty($inputEmail)) {
+            // Fetch Journal Name for dynamic gate branding
+            $subContext = $pdo->prepare("SELECT s.context_id FROM submissions s WHERE s.submission_id = ?");
+            $subContext->execute([$assignment['submission_id']]);
+            $cId = (int)($subContext->fetchColumn() ?: 1);
+            $jnStmt = $pdo->prepare("SELECT setting_value FROM journal_settings WHERE journal_id = ? AND setting_name = 'name' LIMIT 1");
+            $jnStmt->execute([$cId]);
+            $gateJournalName = strip_tags($jnStmt->fetchColumn() ?: 'Academic Research Journal');
+
             echo json_encode([
                 'success' => true,
                 'requires_email' => true,
                 'review_id' => $reviewId,
                 'submission_id' => $assignment['submission_id'],
+                'journal_name' => $gateJournalName,
                 'email_hint' => maskEmail($expectedEmail)
             ]);
             exit;
@@ -144,10 +153,20 @@ switch ($action) {
         $submissionId = $assignment['submission_id'];
 
         // Fetch submission & publication metadata (Title, Abstract)
-        $subStmt = $pdo->prepare("SELECT s.submission_id, s.current_publication_id, s.date_submitted 
+        $subStmt = $pdo->prepare("SELECT s.submission_id, s.context_id, s.current_publication_id, s.date_submitted 
             FROM submissions s WHERE s.submission_id = ?");
         $subStmt->execute([$submissionId]);
         $sub = $subStmt->fetch();
+
+        // Fetch Journal Info dynamically (Universal Multi-Tenant Support)
+        $contextId = $sub['context_id'] ?? 1;
+        $jStmt = $pdo->prepare("SELECT setting_name, setting_value FROM journal_settings WHERE journal_id = ? AND setting_name IN ('name', 'acronym', 'onlineIssn', 'printIssn')");
+        $jStmt->execute([$contextId]);
+        $jSettings = $jStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+        $journalName = !empty($jSettings['name']) ? strip_tags($jSettings['name']) : 'Academic Research Journal';
+        $journalAcronym = !empty($jSettings['acronym']) ? strip_tags($jSettings['acronym']) : 'EM';
+        $onlineIssn = $jSettings['onlineIssn'] ?? '';
+        $printIssn = $jSettings['printIssn'] ?? '';
 
         $title = "Manuscript #{$submissionId}";
         $abstract = "";
@@ -220,6 +239,12 @@ switch ($action) {
             'success' => true,
             'requires_email' => false,
             'data' => [
+                'journal' => [
+                    'name' => $journalName,
+                    'acronym' => $journalAcronym,
+                    'online_issn' => $onlineIssn,
+                    'print_issn' => $printIssn
+                ],
                 'review_id' => $reviewId,
                 'submission_id' => $submissionId,
                 'title' => $title,

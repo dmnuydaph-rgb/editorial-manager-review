@@ -17,9 +17,17 @@ export interface ReviewDraft {
   updated_at?: string;
 }
 
+export interface JournalInfo {
+  name: string;
+  acronym: string;
+  online_issn?: string;
+  print_issn?: string;
+}
+
 export interface ReviewAssignment {
   review_id: number;
   submission_id: number;
+  journal?: JournalInfo;
   reviewer_name: string;
   reviewer_email: string;
   date_assigned: string;
@@ -54,5 +62,6 @@ export interface ApiResponse<T = any> {
   message?: string;
   requires_email?: boolean;
   email_hint?: string;
+  journal_name?: string;
   data?: T;
 }

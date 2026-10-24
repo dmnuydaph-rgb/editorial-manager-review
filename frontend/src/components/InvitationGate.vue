@@ -8,7 +8,7 @@
             <q-icon name="lock" size="32px" />
           </div>
           <div class="text-h6 text-weight-bolder text-secondary q-mt-sm text-uppercase" style="letter-spacing: 1px; font-family: serif;">
-            Davao Research Journal
+            {{ store.journalName }}
           </div>
           <div class="text-caption text-grey-4">
             Editorial Manager® Peer Review Portal

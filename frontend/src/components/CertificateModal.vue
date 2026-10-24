@@ -13,10 +13,10 @@
           Davao Oriental State University • Publication Office
         </div>
         <div class="text-h5 text-weight-bolder text-primary text-uppercase font-serif q-mt-xs" style="letter-spacing: 1.5px;">
-          Davao Research Journal
+          {{ store.journalName }}
         </div>
         <div class="text-caption text-grey-6 text-italic q-mb-lg">
-          ISSN: 2094-814X (Print) • 2984-7540 (Online)
+          ISSN: {{ store.assignment?.journal?.print_issn || '2094-814X' }} (Print) • {{ store.assignment?.journal?.online_issn || '2984-7540' }} (Online)
         </div>
 
         <q-separator color="secondary" inset style="height: 2px; max-width: 250px; margin: 0 auto 24px auto;" />
@@ -44,7 +44,7 @@
 
         <div class="row justify-around items-center q-mt-xl text-caption text-grey-8">
           <div class="column items-center">
-            <span class="text-weight-bold text-slate-900 font-mono">MS ID: DRJ-{{ store.assignment?.submission_id }}</span>
+            <span class="text-weight-bold text-slate-900 font-mono">MS ID: {{ store.journalAcronym }}-{{ store.assignment?.submission_id }}</span>
             <span class="text-grey-6" style="font-size: 11px;">Completed: {{ completionDate }}</span>
           </div>
 
@@ -52,7 +52,7 @@
             <span class="text-weight-bold font-serif text-slate-900" style="border-bottom: 1px solid #94a3b8; padding-bottom: 2px; min-width: 160px;">
               Editorial Board
             </span>
-            <span class="text-grey-6" style="font-size: 11px;">Davao Research Journal</span>
+            <span class="text-grey-6" style="font-size: 11px;">{{ store.journalName }}</span>
           </div>
         </div>
       </div>

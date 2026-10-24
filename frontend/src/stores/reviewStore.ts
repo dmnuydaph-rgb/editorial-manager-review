@@ -12,7 +12,7 @@ const DEFAULT_CRITERIA: EvaluationCriterion[] = [
 const DEFAULT_QUESTIONS: ComplianceQuestion[] = [
   {
     id: 'comp_suitable',
-    label: '1. Is the subject matter suitable for Davao Research Journal?',
+    label: '1. Is the subject matter suitable for publication in this journal?',
     options: [{ label: 'Yes', value: 'yes' }, { label: 'No', value: 'no' }]
   },
   {
@@ -38,6 +38,7 @@ export const useReviewStore = defineStore('review', {
     token: '' as string,
     verifiedEmail: '' as string,
     emailHint: '' as string,
+    detectedJournalName: '' as string,
     
     // Gates
     isDeviceBlocked: false,
@@ -80,6 +81,12 @@ export const useReviewStore = defineStore('review', {
     },
     isUnlocked(state): boolean {
       return !state.isDeviceBlocked && !state.isNoTokenBlocked && !state.isEmailGateOpen && !!state.assignment
+    },
+    journalName(state): string {
+      return state.assignment?.journal?.name || state.detectedJournalName || 'Editorial Manager® Reviewer Portal'
+    },
+    journalAcronym(state): string {
+      return state.assignment?.journal?.acronym || 'EM'
     },
     completionPercentage(state): number {
       let filled = 0
@@ -157,6 +164,7 @@ export const useReviewStore = defineStore('review', {
         if (data.requires_email) {
           this.isEmailGateOpen = true
           this.emailHint = data.email_hint || ''
+          if (data.journal_name) this.detectedJournalName = data.journal_name
           this.saveStatus = 'Verification Required'
           return
         }

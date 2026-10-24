@@ -8,7 +8,7 @@
             <q-icon name="laptop_mac" size="32px" />
           </div>
           <div class="text-subtitle1 text-weight-bolder text-secondary q-mt-sm text-uppercase" style="letter-spacing: 1px; font-family: serif;">
-            Davao Research Journal
+            {{ store.journalName }}
           </div>
           <div class="text-caption text-grey-4">
             Editorial Manager® Peer Review Workstation

@@ -10,7 +10,7 @@
         <div class="column">
           <div class="row items-center q-gutter-x-xs no-wrap">
             <span class="text-weight-bolder text-secondary text-uppercase text-caption" style="letter-spacing: 0.5px; font-family: serif;">
-              Davao Research Journal
+              {{ store.journalName }}
             </span>
             <q-badge color="dark" class="text-caption text-weight-bold" style="font-size: 10px;">
               EM Reviewer Central
@@ -20,7 +20,7 @@
             <span class="text-white text-weight-medium">Editorial Manager®</span>
             <span>•</span>
             <span class="text-amber-3 text-weight-bold font-mono">
-              MS ID: DRJ-{{ store.assignment ? store.assignment.submission_id : '---' }}
+              MS ID: {{ store.journalAcronym }}-{{ store.assignment ? store.assignment.submission_id : '---' }}
             </span>
             <span>•</span>
             <span class="text-positive text-weight-medium flex items-center q-gutter-x-xs">
