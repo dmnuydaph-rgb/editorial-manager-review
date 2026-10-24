@@ -2,6 +2,8 @@
 
 A decoupled, high-performance academic Peer Review Workspace styled after **Aries Editorial Manager® / Elsevier EM**, built with **Vue 3, Quasar Framework, and TypeScript**, integrated directly with **Open Journal Systems (OJS 3.4)**.
 
+📖 **Comprehensive Technical Documentation:** See the complete [Technical Design Document (TECHNICAL_DESIGN.md)](./TECHNICAL_DESIGN.md) for sequence diagrams, security specifications, and process flows.
+
 ---
 
 ## 🌟 Key Architecture
