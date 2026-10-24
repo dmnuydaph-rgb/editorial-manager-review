@@ -4,7 +4,7 @@
 **Document Version:** 1.0.0  
 **Author / Architect:** Darryl M. Nuyda (Manusci / Davao Research Journal)  
 **System Target:** Davao Research Journal (`davaoresearchjournal.ph` / `review.davaoresearchjournal.ph`)  
-**Core Frameworks:** Vue 3 (Composition API), Quasar Framework 2.x, TypeScript, Open Journal Systems (OJS 3.4.0-7), PHP 8.2, MySQL 8.0, Resend SMTP Relay.  
+**Core Architecture:** DRJ Adaptive Reactive Workstation Core (ARWC), TypeScript, Open Journal Systems (OJS 3.4.0-7), PHP 8.2, MySQL 8.0, Resend SMTP Relay.  
 **License:** GNU General Public License v3.0 (GPLv3)
 
 ---
@@ -22,7 +22,7 @@ The **Editorial Manager® Peer Review Portal** is a decoupled, modern Single Pag
 ## 2. High-Level System Architecture
 
 The ecosystem consists of four interconnected tiers:
-1. **Frontend Presentation Tier (Client)**: Vue 3 + Quasar + TypeScript SPA featuring drag-resizable split panes, reactive scoring rubrics, and three security gates.
+1. **Frontend Presentation Tier (Client)**: DRJ Adaptive Reactive Workstation Core (ARWC) featuring drag-resizable split panes, reactive scoring rubrics, and three security gates.
 2. **Security & Routing Tier**: Nginx web server handling subdomain routing, TLS termination, and frame-0 solid background enforcement.
 3. **API & Business Logic Gateway**: Lightweight, high-throughput PHP 8.2 REST API (`api.php`) enforcing HMAC-SHA256 signature validation and payload sanitization.
 4. **Data & Storage Tier**: OJS 3.4 core database (`drj2024_35beta`), local file storage repository (`/home/drj2024/files/`), and Resend SMTP Relay (Port 465 SSL).
@@ -65,7 +65,7 @@ To ensure confidential, unpublished scientific manuscripts are protected against
 sequenceDiagram
     autonumber
     actor Reviewer
-    participant Client as Frontend SPA (Vue 3 / Quasar)
+    participant Client as DRJ Reactive Workstation (ARWC)
     participant API as API Gateway (api.php)
     participant DB as OJS Database
     participant FS as File Storage
@@ -113,7 +113,7 @@ sequenceDiagram
 ## 4. Split-Screen Workspace & Reactive Scoring Engine
 
 ### 4.1 Component Breakdown
-* **`App.vue`**: Root orchestrator. Controls dynamic layout switching (`split`, `manuscript`, `rubric`) via Quasar's `<q-splitter>` and enforces frame-0 solid navy backdrop when gates are active.
+* **`App.vue`**: Root orchestrator. Controls dynamic layout switching (`split`, `manuscript`, `rubric`) via an Adaptive Dual-Pane Split Controller and enforces frame-0 solid navy backdrop when gates are active.
 * **`WorkspaceHeader.vue`**: Aries EM high-density toolbar. Shows DRJ branding, live MS ID tracking, OJS bridge health pulse, auto-save status indicator, and deadline countdown.
 * **`ManuscriptViewer.vue`**: Left-pane document reader. If PDF proof exists, loads high-performance sandbox iframe streaming from `api.php?action=stream_file`. If Word (.docx), displays a structured manuscript card with title, abstract, and direct file download.
 * **`ReviewerEvaluationForm.vue`**: Right-pane evaluation suite:
@@ -136,7 +136,7 @@ To prevent work loss caused by network interruptions or accidental browser closu
 sequenceDiagram
     autonumber
     actor Reviewer
-    participant Store as Pinia Store (reviewStore.ts)
+    participant Store as In-Memory State & Telemetry Store
     participant Local as Browser LocalStorage
     participant API as api.php (save_draft)
     participant FS as Server JSON Draft Storage

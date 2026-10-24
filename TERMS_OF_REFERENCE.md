@@ -42,7 +42,7 @@ All three (3) essential publishing modules have been verified and operationalize
 ### Module 3: Aries Editorial Manager® Reviewer Workspace *(Completed)*
 * **Live System URL:** `https://review.davaoresearchjournal.ph`
 * **Features Delivered:**
-  1. **Split-Screen Workspace:** Drag-resizable split pane (`q-splitter`) synchronizing manuscript document reading and evaluation rubric scoring.
+  1. **Split-Screen Workspace:** Drag-resizable dual split-pane interface synchronizing manuscript document reading and evaluation rubric scoring.
   2. **Scientific Rubric & Compliance Questionnaire:** 5-point Likert evaluation matrix across five scientific standards; compliance radios for statistical integrity, writing clarity, and conflicts of interest.
   3. **Dual-Tier Feedback Isolation:** Database-level isolation between Blinded Author Feedback and Confidential Editor Comments.
   4. **Triple Zero-Trust Security Gates:**
@@ -61,7 +61,7 @@ All three (3) essential publishing modules have been verified and operationalize
 | :--- | :--- | :--- | :---: |
 | **D1: Author Module (Module 1)** | Guided submission wizard, metadata capture, file upload, status tracker. | Operational in OJS 3.4 core at `davaoresearchjournal.ph`. | **VERIFIED & ACCEPTED** |
 | **D2: Editorial Hub (Module 2)** | Desk triage, reviewer assignment, decision dispatcher. | Operational in OJS 3.4 core at `davaoresearchjournal.ph`. | **VERIFIED & ACCEPTED** |
-| **D3: Reviewer Portal SPA (Module 3)** | Vue 3 + Quasar + TypeScript SPA deployed at `review.davaoresearchjournal.ph`. | Verified live on production server with zero build warnings; all 3 security gates active. | **VERIFIED & ACCEPTED** |
+| **D3: Reviewer Portal (Module 3)** | DRJ Adaptive Reactive Workstation Client deployed at `review.davaoresearchjournal.ph`. | Verified live on production server with zero build warnings; all 3 security gates active. | **VERIFIED & ACCEPTED** |
 | **D4: REST API & Security Bridge** | PHP 8.2 API (`api.php`) with PDO connection to OJS database (`drj2024_35beta`). | Cryptographic HMAC-SHA256 validation confirmed; unauthorized access rejected. | **VERIFIED & ACCEPTED** |
 | **D5: Outbound SMTP Integration** | Resend SMTP Relay integrated over Port 465 SSL in `config.inc.php`. | Invitation emails delivered directly to external Gmail/academic inboxes without spam flagging. | **VERIFIED & ACCEPTED** |
 | **D6: OJS 3.4 Generic Plugin** | `editorialManagerReview` generic plugin installed in OJS. | Registered in OJS Plugin Gallery; hooks into `LoadHandler` for URL routing. | **VERIFIED & ACCEPTED** |
@@ -82,7 +82,7 @@ All three (3) essential publishing modules have been verified and operationalize
 | :--- | :--- | :---: | :---: |
 | **Module 1: Author Submission Module** | Multi-step submission wizard, file upload, live status tracking | **Complete** | **₱140,000** |
 | **Module 2: Editorial Management Hub** | Desk triage, reviewer assignment, Resend SMTP relay, decisions | **Complete** | **₱180,000** |
-| **Module 3: Peer Review Workstation** | Vue 3/Quasar SPA, Split Panes, Triple Security Gates, Certificate | **Complete** | **₱160,000** |
+| **Module 3: Peer Review Workstation** | DRJ Reactive Workstation Core, Dual Split Panes, Triple Security Gates, Certificate | **Complete** | **₱160,000** |
 | **Integration & Verification** | End-to-end integration, database consistency, Resend SMTP tuning | **Complete** | **₱60,000** |
 | **TOTAL CONTRACT VALUE:** | **Complete 3-Module Modernization Suite** | **100% Complete** | **₱540,000 PHP**<br>(~$9,300 USD) |
 

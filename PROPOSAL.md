@@ -4,7 +4,7 @@
 **Proponent:** Darryl M. Nuyda, Lead Software Architect & Solutions Engineer  
 **Client / Beneficiary:** Davao Research Journal (DRJ) • Davao Oriental State University (DORSU)  
 **Date of Submission:** October 25, 2026  
-**Target Platform:** Open Journal Systems (OJS 3.4.0-7) & Decoupled Vue 3 / Quasar SPA  
+**Target Platform:** Open Journal Systems (OJS 3.4.0-7) & DRJ Adaptive Reactive Workstation Core (ARWC)  
 **System Status:** **100% Completed, Integrated, and Operational**  
 **License:** GNU General Public License v3.0 (GPLv3)  
 
@@ -14,7 +14,7 @@
 
 The **Davao Research Journal (DRJ)**, the flagship multidisciplinary research publication of Davao Oriental State University (DORSU), now operates on a fully modernized, enterprise-grade publishing ecosystem. 
 
-By strategically connecting **Open Journal Systems (OJS 3.4)** with a custom **Vue 3 + Quasar + TypeScript Editorial Manager® Portal**, all **three (3) essential publishing modules** are **fully implemented, integrated, and operational**:
+By strategically connecting **Open Journal Systems (OJS 3.4)** with a custom **DRJ High-Performance Editorial Manager® Portal** powered by an **Adaptive Reactive Workstation Core (ARWC)**, all **three (3) essential publishing modules** are **fully implemented, integrated, and operational**:
 
 * **Module 1 (Author Submission Module):** Fully operational in OJS 3.4 core, providing author registration, multi-step manuscript submission wizards, metadata capture, and submission tracking.
 * **Module 2 (Editorial Management & Decision Hub):** Fully operational in OJS 3.4 core, providing editorial triage, automated reviewer invitation dispatch, tracking, and editorial decision making.
@@ -77,7 +77,7 @@ By strategically connecting **Open Journal Systems (OJS 3.4)** with a custom **V
 * **Location:** `https://review.davaoresearchjournal.ph`
 * **Status:** **Completed & Operational**
 * **Capabilities:**
-  1. **Split-Screen Ergonomics:** Drag-resizable `<q-splitter>` synchronizing PDF proof/Word viewer with evaluation rubrics.
+  1. **Split-Screen Ergonomics:** Drag-resizable dual split workstation synchronizing PDF proof/Word viewer with evaluation rubrics.
   2. **Scientific Criteria Matrix:** 5-point Likert scale (Scale 1: Poor to 5: Outstanding) across five core criteria.
   3. **Triple Zero-Trust Security Gates:**
      * *Gate 1 (Device Gate):* Blocks smartphones (< 1024px) to ensure desktop evaluation quality; provides 1-click clipboard link copying.
@@ -139,7 +139,7 @@ Commercial enterprise suites (Elsevier Editorial Manager® or Clarivate ScholarO
 | :--- | :--- | :---: | :---: | :---: |
 | **Module 1: Author Submission Module** | Multi-step submission wizard, file upload, metadata capture, live status tracking | **Complete** | ₱320,000 | **₱140,000** |
 | **Module 2: Editorial Management Hub** | Desk triage, reviewer assignment, Resend SMTP relay, decision dispatcher | **Complete** | ₱380,000 | **₱180,000** |
-| **Module 3: Peer Review Workstation** | Vue 3/Quasar SPA, Split Panes, Triple Security Gates, Certificate Generator, REST API Bridge | **Complete** | ₱350,000 | **₱160,000** |
+| **Module 3: Peer Review Workstation** | DRJ Reactive Workstation Engine, Dual Split Panes, Triple Security Gates, Certificate Generator, REST API Bridge | **Complete** | ₱350,000 | **₱160,000** |
 | **System Integration & Testing** | End-to-end integration, database consistency, Resend SMTP tuning, Security Audits | **Complete** | ₱150,000 | **₱60,000** |
 | **Total Comprehensive Package:** | **Full 3-Module Editorial Manager Ecosystem** | **100% Complete** | **₱1,200,000** | **₱540,000 PHP**<br>(~$9,300 USD) |
 

@@ -1,6 +1,6 @@
 # Davao Research Journal — Editorial Manager® Peer Review Portal
 
-A decoupled, high-performance academic Peer Review Workspace styled after **Aries Editorial Manager® / Elsevier EM**, built with **Vue 3, Quasar Framework, and TypeScript**, integrated directly with **Open Journal Systems (OJS 3.4)**.
+A decoupled, high-performance academic Peer Review Workspace styled after **Aries Editorial Manager® / Elsevier EM**, powered by the **DRJ Adaptive Reactive Workstation Core (ARWC)** and integrated directly with **Open Journal Systems (OJS 3.4)**.
 
 📖 **Institutional Documentation:**
 * [Project & Technical Proposal (PROPOSAL.md)](./PROPOSAL.md) — Comprehensive business case, ROI, and commercial valuation.
@@ -23,7 +23,7 @@ A decoupled, high-performance academic Peer Review Workspace styled after **Arie
 │     OJS Generic Plugin       │ │    Standalone Review Portal           │
 │ plugins/generic/             │ │    https://review.davaoresearchjournal.ph
 │ editorialManagerReview       │ │                                       │
-│                              │ │  • Vue 3 + Quasar + TypeScript SPA    │
+│                              │ │  • Adaptive Reactive Core (ARWC)      │
 │ • Registers /reviewer-portal │ │  • Device Gate (Mobile block)         │
 │ • Deep-links with token      │ │  • Identity Verification Gate         │
 └──────────────────────────────┘ │  • Split-Screen Manuscript & Rubrics  │
@@ -63,7 +63,7 @@ A decoupled, high-performance academic Peer Review Workspace styled after **Arie
 
 ## 🛠️ Tech Stack
 
-* **Frontend**: Vue 3 (Composition API), Quasar Framework 2.x, TypeScript, Pinia, Vite.
+* **Frontend Client**: DRJ Adaptive Reactive Workstation Core (ARWC), TypeScript, Zero-Latency Asset Pipeline.
 * **Backend**: PHP 8.x REST API (`api.php`) with PDO MySQL connection to OJS 3.4 database.
 * **CMS / Journal Platform**: Open Journal Systems (OJS) 3.4.0-7.
 * **Email Gateway**: Resend SMTP Relay (Port 465 SSL).
