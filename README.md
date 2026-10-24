@@ -2,7 +2,10 @@
 
 A decoupled, high-performance academic Peer Review Workspace styled after **Aries Editorial Manager® / Elsevier EM**, built with **Vue 3, Quasar Framework, and TypeScript**, integrated directly with **Open Journal Systems (OJS 3.4)**.
 
-📖 **Comprehensive Technical Documentation:** See the complete [Technical Design Document (TECHNICAL_DESIGN.md)](./TECHNICAL_DESIGN.md) for sequence diagrams, security specifications, and process flows.
+📖 **Institutional Documentation:**
+* [Project & Technical Proposal (PROPOSAL.md)](./PROPOSAL.md) — Comprehensive business case, ROI, and commercial valuation.
+* [Terms of Reference (TERMS_OF_REFERENCE.md)](./TERMS_OF_REFERENCE.md) — Institutional TOR for university administration and procurement.
+* [Technical Design Document (TECHNICAL_DESIGN.md)](./TECHNICAL_DESIGN.md) — Architecture, sequence diagrams, security specifications, and process flows.
 
 ---
 
