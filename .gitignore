@@ -8,13 +8,42 @@ frontend/dist/
 scratch/
 .system_generated/
 *.tmp
+*.py
+*.sql
+
+# Server & Migration Scratch
+check_*.php
+clean_*.php
+list_*.php
+simulate.php
+test_*.php
+verify_*.php
+enable_*.php
+patch_*.py
+fix_*.py
+drj_*.*
+favicon_*.*
+pageHeaderLogoImage_*.*
+editorialBoard.tar.gz
+public/
+seals/
+index.html
+
+# Exclude unrelated plugins from this repo
+plugins/generic/articlestatistics/
+plugins/generic/crossmarkxmlgenerator/
+plugins/generic/crossrefreferencelinker/
+plugins/generic/editorialBoard/
+plugins/generic/openImpactScore/
+plugins/themes/
 
 # Environment & Keys
 .env
 .env.local
 *.key
-*drj2024_rsa
-*drj2024_ed25519
+*.pub
+*drj2024_rsa*
+*drj2024_ed25519*
 drj2024_rsa
 drj2024_ed25519
 
