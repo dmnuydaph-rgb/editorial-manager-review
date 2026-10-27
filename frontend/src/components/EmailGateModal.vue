@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <q-dialog :model-value="store.isEmailGateOpen" persistent maximized transition-show="fade" transition-hide="fade">
     <div class="row items-center justify-center full-width full-height bg-slate-950-backdrop q-pa-md">
       <q-card class="bg-white text-slate-800 rounded-borders shadow-24" style="max-width: 460px; width: 100%; border-radius: 16px; overflow: hidden;">
@@ -58,7 +58,7 @@
           />
 
           <div class="text-center text-caption text-grey-6 q-pt-sm" style="border-top: 1px solid #f1f5f9; font-size: 11px;">
-            If you are not the designated reviewer, please contact the <a href="mailto:editor@davaoresearchjournal.ph" class="text-primary text-weight-bold">Editorial Office</a>.
+            If you are not the designated reviewer, please contact the <a href="mailto:editor@philair.org" class="text-primary text-weight-bold">Editorial Office</a>.
           </div>
         </q-card-section>
       </q-card>

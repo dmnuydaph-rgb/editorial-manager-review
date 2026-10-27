@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <q-dialog :model-value="store.isCertificateModalOpen" transition-show="scale" transition-hide="scale">
     <q-card class="bg-white text-slate-800 rounded-borders shadow-24" style="max-width: 680px; width: 100%; border-radius: 16px; overflow: hidden;">
       <!-- Certificate Visual Container (Printable) -->
@@ -10,7 +10,7 @@
 
         <!-- Top Header -->
         <div class="text-caption text-weight-bold text-secondary text-uppercase font-serif" style="letter-spacing: 2px;">
-          Davao Oriental State University • Publication Office
+          Philippine Association of Institutions for Research, Inc. (PHILAIR) • Editorial Office
         </div>
         <div class="text-h5 text-weight-bolder text-primary text-uppercase font-serif q-mt-xs" style="letter-spacing: 1.5px;">
           {{ store.journalName }}

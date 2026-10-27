@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="column full-height bg-white" style="overflow: hidden;">
     <!-- Evaluation Header & Progress -->
     <div class="q-px-md q-py-sm bg-grey-1 row items-center justify-between no-wrap" style="border-bottom: 1px solid #e2e8f0;">
@@ -296,7 +296,8 @@ const recommendationOptions = [
   { label: 'Accept Submission (Publish as is)', value: 1 },
   { label: 'Revisions Required (Minor Editorial / Formatting Changes)', value: 2 },
   { label: 'Resubmit for Review (Major Scientific Revision Required)', value: 3 },
-  { label: 'Decline Submission (Reject - Substantial Deficiencies)', value: 4 }
+  { label: 'Decline Submission (Reject - Substantial Deficiencies)', value: 4 },
+  { label: 'See Comments Below (Detailed in feedback)', value: 5 }
 ]
 
 const canSubmit = computed(() => {

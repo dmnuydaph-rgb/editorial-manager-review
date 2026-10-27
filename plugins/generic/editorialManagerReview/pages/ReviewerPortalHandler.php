@@ -32,7 +32,7 @@ class ReviewerPortalHandler extends Handler
     public function index($args, $request)
     {
         $queryString = $_SERVER['QUERY_STRING'] ?? '';
-        $targetUrl = 'https://review.davaoresearchjournal.ph/';
+        $targetUrl = 'https://review.philair.org/';
 
         if (!empty($queryString)) {
             // Strip index.php path if present in query string

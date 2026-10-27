@@ -17,10 +17,10 @@ app.use(Quasar, {
   },
   config: {
     brand: {
-      primary: '#002B49',   // Davao Research Journal Navy
-      secondary: '#D4A017', // DRJ Gold
-      accent: '#0284c7',
-      dark: '#0f172a',
+      primary: '#002B49',   // Philair Deep Institutional Navy
+      secondary: '#D4A017', // Philair Gold / Amber
+      accent: '#5C2D91',    // Philair Royal Purple
+      dark: '#00172B',      // Dark Frame-0 Navy
       positive: '#10b981',
       negative: '#ef4444',
       info: '#06b6d4',

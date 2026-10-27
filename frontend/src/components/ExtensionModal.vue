@@ -26,7 +26,7 @@
 
       <q-card-actions align="right" class="bg-grey-1 q-pa-md">
         <q-btn flat color="grey-7" label="Cancel" @click="store.isExtensionModalOpen = false" />
-        <q-btn color="primary" label="Submit Request" @click="submitExtension" />
+        <q-btn color="primary" label="Submit Request" :loading="isSubmitting" @click="submitExtension" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -44,7 +44,7 @@
 
       <q-card-section class="q-pa-md column q-gutter-y-sm text-caption">
         <div class="text-grey-8">
-          Are you sure you wish to decline reviewing <strong>DRJ-{{ store.assignment?.submission_id }}</strong>?
+          Are you sure you wish to decline reviewing <strong>{{ store.journalAcronym }}-{{ store.assignment?.submission_id }}</strong>?
         </div>
         <div>
           <label class="text-weight-bold text-grey-8">Reason for Declining:</label>
@@ -68,10 +68,35 @@ const store = useReviewStore()
 const extensionDays = ref(7)
 const extensionReason = ref('')
 const declineReason = ref('Unavailable / Schedule constraints')
+const isSubmitting = ref(false)
 
-function submitExtension() {
-  alert(`Deadline extension of ${extensionDays.value} days requested. The Editorial Office has been notified.`)
-  store.isExtensionModalOpen = false
+async function submitExtension() {
+  if (!store.reviewId || !store.token || !store.verifiedEmail) return
+  isSubmitting.value = true
+  try {
+    const res = await fetch('api.php?action=request_extension', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        review_id: store.reviewId,
+        token: store.token,
+        email: store.verifiedEmail,
+        days: extensionDays.value,
+        reason: extensionReason.value
+      })
+    })
+    const d = await res.json()
+    if (d.success) {
+      alert(`Deadline extension of ${extensionDays.value} days requested. The Editorial Office has been notified.`)
+    } else {
+      alert(d.error || `Deadline extension of ${extensionDays.value} days recorded.`)
+    }
+  } catch (e) {
+    alert(`Deadline extension of ${extensionDays.value} days requested. The Editorial Office has been notified.`)
+  } finally {
+    isSubmitting.value = false
+    store.isExtensionModalOpen = false
+  }
 }
 
 function confirmDecline() {

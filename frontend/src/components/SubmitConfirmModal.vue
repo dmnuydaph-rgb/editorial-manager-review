@@ -10,7 +10,7 @@
           Confirm Review Submission
         </div>
         <div class="text-caption text-grey-4">
-          Davao Research Journal • Editorial Manager® System
+          {{ store.journalName }} • Editorial Manager® System
         </div>
       </div>
 
@@ -18,14 +18,14 @@
       <q-card-section class="q-pa-lg column q-gutter-y-md text-body2">
         <div class="bg-amber-1 text-amber-10 q-pa-md rounded-borders text-caption" style="border: 1px solid #fde68a;">
           <strong>Final Review Transmittal:</strong><br>
-          You are about to transmit your official evaluation to the Davao Research Journal Editorial Board. Once submitted, your scores and comments will be permanently logged in OJS and cannot be edited.
+          You are about to transmit your official evaluation to the {{ store.journalName }} Editorial Board. Once submitted, your scores and comments will be permanently logged in OJS and cannot be edited.
         </div>
 
         <!-- Summary -->
         <q-card flat bordered class="bg-grey-1 q-pa-md rounded-borders column q-gutter-y-xs text-caption">
           <div class="row justify-between">
             <span class="text-grey-7">Manuscript:</span>
-            <strong class="text-slate-900">DRJ-{{ store.assignment?.submission_id }}</strong>
+            <strong class="text-slate-900">{{ store.journalAcronym }}-{{ store.assignment?.submission_id }}</strong>
           </div>
           <div class="row justify-between">
             <span class="text-grey-7">Recommendation:</span>
@@ -79,6 +79,7 @@ const recommendationLabel = computed(() => {
     case 2: return 'Revisions Required (Minor)'
     case 3: return 'Resubmit for Review (Major)'
     case 4: return 'Decline Submission (Reject)'
+    case 5: return 'See Comments Below'
     default: return 'None selected'
   }
 })

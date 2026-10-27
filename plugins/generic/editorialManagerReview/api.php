@@ -1,7 +1,7 @@
 <?php
 /**
- * Davao Research Journal - Decoupled Peer Review Portal API
- * Bridges Editorial Manager SPA with OJS 3.x Database & File Storage
+ * Philippine Association of Institutions for Research, Inc. (PHILAIR.ORG)
+ * Decoupled Peer Review Suite - Backend REST Gateway
  * Enhanced with Cryptographic HMAC Token + Reviewer Email Verification Gate
  */
 
@@ -15,27 +15,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// 1. Load OJS Configuration & Database
-$ojsConfigPath = '/home/drj2024/public_html/config.inc.php';
+// 1. Locate and Load Philair OJS Configuration
+$ojsConfigPath = '/home/philairorg/public_html/config.inc.php';
 if (!file_exists($ojsConfigPath)) {
-    echo json_encode(['success' => false, 'error' => 'OJS configuration not found']);
-    exit;
+    if (file_exists(__DIR__ . '/config.inc.php')) {
+        $ojsConfigPath = __DIR__ . '/config.inc.php';
+    } elseif (file_exists(dirname(__DIR__) . '/public_html/config.inc.php')) {
+        $ojsConfigPath = dirname(__DIR__) . '/public_html/config.inc.php';
+    } elseif (file_exists('/home/philairorg/review_portal/config.inc.php')) {
+        $ojsConfigPath = '/home/philairorg/review_portal/config.inc.php';
+    } else {
+        echo json_encode(['success' => false, 'error' => 'OJS configuration not found']);
+        exit;
+    }
 }
 
 $lines = file($ojsConfigPath);
 $inDb = false;
-$dbHost = 'localhost'; $dbUser = ''; $dbPass = ''; $dbName = ''; $filesDir = '/home/drj2024/files';
+$dbHost = 'localhost';
+$dbUser = '';
+$dbPass = '';
+$dbName = '';
+$filesDir = '/home/philairorg/files';
+$configSalt = 'YouMustSetASecretKeyHere!!';
+
 foreach ($lines as $line) {
     $line = trim($line);
     if (preg_match('/^\[database\]/i', $line)) { $inDb = true; continue; }
     if ($inDb && preg_match('/^\[/', $line)) { $inDb = false; }
     if ($inDb) {
-        if (preg_match('/^host\s*=\s*(.*)/i', $line, $m)) $dbHost = trim($m[1]);
-        if (preg_match('/^username\s*=\s*(.*)/i', $line, $m)) $dbUser = trim($m[1]);
-        if (preg_match('/^password\s*=\s*(.*)/i', $line, $m)) $dbPass = trim($m[1]);
-        if (preg_match('/^name\s*=\s*(.*)/i', $line, $m)) $dbName = trim($m[1]);
+        if (preg_match('/^host\s*=\s*(.*)/i', $line, $m)) $dbHost = trim($m[1], " \t\n\r\0\x0B\"'");
+        if (preg_match('/^username\s*=\s*(.*)/i', $line, $m)) $dbUser = trim($m[1], " \t\n\r\0\x0B\"'");
+        if (preg_match('/^password\s*=\s*(.*)/i', $line, $m)) $dbPass = trim($m[1], " \t\n\r\0\x0B\"'");
+        if (preg_match('/^name\s*=\s*(.*)/i', $line, $m)) $dbName = trim($m[1], " \t\n\r\0\x0B\"'");
     }
-    if (preg_match('/^files_dir\s*=\s*(.*)/i', $line, $m)) $filesDir = trim($m[1]);
+    if (preg_match('/^files_dir\s*=\s*(.*)/i', $line, $m)) $filesDir = trim($m[1], " \t\n\r\0\x0B\"'");
+    if (preg_match('/^salt\s*=\s*(.*)/i', $line, $m)) $configSalt = trim($m[1], " \t\n\r\0\x0B\"'");
 }
 
 try {
@@ -48,23 +63,34 @@ try {
     exit;
 }
 
-// 2. Draft Storage Directory
-$draftsDir = __DIR__ . '/drafts';
+// 2. Setup Storage Directories
+$basePortalDir = file_exists('/home/philairorg/review_portal') ? '/home/philairorg/review_portal' : __DIR__;
+$draftsDir = $basePortalDir . '/drafts';
 if (!is_dir($draftsDir)) {
     @mkdir($draftsDir, 0755, true);
 }
+$attachmentsDir = $basePortalDir . '/attachments';
+if (!is_dir($attachmentsDir)) {
+    @mkdir($attachmentsDir, 0755, true);
+}
+$extensionsDir = $basePortalDir . '/extensions';
+if (!is_dir($extensionsDir)) {
+    @mkdir($extensionsDir, 0755, true);
+}
 
-// Secret key for HMAC token generation/verification
-$secretKey = 'DRJ_SECRET_KEY_REVIEW_2026_' . substr(md5($dbPass), 0, 16);
+// Secret key for HMAC token generation/verification (salted with OJS config secret + db password)
+$secretKey = hash('sha256', 'PHILAIR_EM_REVIEW_' . $configSalt . $dbPass);
 
 function generateReviewToken($reviewId, $dateAssigned, $secretKey) {
-    return hash_hmac('sha256', "drj_review_{$reviewId}_{$dateAssigned}", $secretKey);
+    return hash_hmac('sha256', "{$reviewId}|{$dateAssigned}", $secretKey);
 }
 
 function verifyReviewToken($reviewId, $token, $dateAssigned, $secretKey) {
     if ($token === 'preview' || $token === 'demo') return true;
-    $expected = generateReviewToken($reviewId, $dateAssigned, $secretKey);
-    return hash_equals($expected, $token);
+    $expected1 = hash_hmac('sha256', "{$reviewId}|{$dateAssigned}", $secretKey);
+    $expected2 = hash_hmac('sha256', "philair_review_{$reviewId}_{$dateAssigned}", $secretKey);
+    $expected3 = hash_hmac('sha256', "drj_review_{$reviewId}_{$dateAssigned}", $secretKey);
+    return hash_equals($expected1, $token) || hash_equals($expected2, $token) || hash_equals($expected3, $token);
 }
 
 function maskEmail($email) {
@@ -84,7 +110,7 @@ $action = $_GET['action'] ?? '';
 
 switch ($action) {
 
-    // --- GET ASSIGNMENT DETAILS (Protected by Token + Email Verification Gate) ---
+    // --- GET ASSIGNMENT DETAILS (Protected by HMAC Token + Reviewer Email Verification Gate) ---
     case 'get_assignment':
         $reviewId = (int)($_GET['review_id'] ?? 0);
         $token = $_GET['token'] ?? '';
@@ -105,7 +131,7 @@ switch ($action) {
             exit;
         }
 
-        // Validate token
+        // Validate HMAC token
         if (!verifyReviewToken($reviewId, $token, $assignment['date_assigned'], $secretKey)) {
             echo json_encode(['success' => false, 'error' => 'Invalid or expired review access token']);
             exit;
@@ -120,7 +146,7 @@ switch ($action) {
         $reviewer = $reviewerStmt->fetch();
         $expectedEmail = strtolower(trim($reviewer['email'] ?? ''));
 
-        // --- EMAIL VERIFICATION GATE CHECK ---
+        // --- GATE 3: EMAIL VERIFICATION CHALLENGE ---
         if (empty($inputEmail)) {
             // Fetch Journal Name for dynamic gate branding
             $subContext = $pdo->prepare("SELECT s.context_id FROM submissions s WHERE s.submission_id = ?");
@@ -128,7 +154,7 @@ switch ($action) {
             $cId = (int)($subContext->fetchColumn() ?: 1);
             $jnStmt = $pdo->prepare("SELECT setting_value FROM journal_settings WHERE journal_id = ? AND setting_name = 'name' LIMIT 1");
             $jnStmt->execute([$cId]);
-            $gateJournalName = strip_tags($jnStmt->fetchColumn() ?: 'Academic Research Journal');
+            $gateJournalName = strip_tags($jnStmt->fetchColumn() ?: 'Philippine Association of Institutions for Research, Inc.');
 
             echo json_encode([
                 'success' => true,
@@ -149,27 +175,28 @@ switch ($action) {
             exit;
         }
 
-        // Email verified! Proceed with returning full manuscript data
+        // Email verified! Return full manuscript data
         $submissionId = $assignment['submission_id'];
 
-        // Fetch submission & publication metadata (Title, Abstract)
+        // Fetch submission & publication metadata (Title, Abstract, Section)
         $subStmt = $pdo->prepare("SELECT s.submission_id, s.context_id, s.current_publication_id, s.date_submitted 
             FROM submissions s WHERE s.submission_id = ?");
         $subStmt->execute([$submissionId]);
         $sub = $subStmt->fetch();
 
-        // Fetch Journal Info dynamically (Universal Multi-Tenant Support)
         $contextId = $sub['context_id'] ?? 1;
         $jStmt = $pdo->prepare("SELECT setting_name, setting_value FROM journal_settings WHERE journal_id = ? AND setting_name IN ('name', 'acronym', 'onlineIssn', 'printIssn')");
         $jStmt->execute([$contextId]);
         $jSettings = $jStmt->fetchAll(PDO::FETCH_KEY_PAIR);
-        $journalName = !empty($jSettings['name']) ? strip_tags($jSettings['name']) : 'Academic Research Journal';
-        $journalAcronym = !empty($jSettings['acronym']) ? strip_tags($jSettings['acronym']) : 'EM';
-        $onlineIssn = $jSettings['onlineIssn'] ?? '';
-        $printIssn = $jSettings['printIssn'] ?? '';
+        $journalName = !empty($jSettings['name']) ? strip_tags($jSettings['name']) : 'PHILAIR Journal';
+        $journalAcronym = !empty($jSettings['acronym']) ? strip_tags($jSettings['acronym']) : 'PHILAIR';
+        $onlineIssn = $jSettings['onlineIssn'] ?? '2984-7540';
+        $printIssn = $jSettings['printIssn'] ?? '2094-814X';
 
         $title = "Manuscript #{$submissionId}";
         $abstract = "";
+        $sectionTitle = "Peer Review Stage";
+
         if ($sub && $sub['current_publication_id']) {
             $pubStmt = $pdo->prepare("SELECT setting_name, setting_value FROM publication_settings 
                 WHERE publication_id = ? AND setting_name IN ('title', 'abstract')");
@@ -177,6 +204,13 @@ switch ($action) {
             $settings = $pubStmt->fetchAll(PDO::FETCH_KEY_PAIR);
             if (!empty($settings['title'])) $title = strip_tags($settings['title']);
             if (!empty($settings['abstract'])) $abstract = $settings['abstract'];
+
+            $secStmt = $pdo->prepare("SELECT ss.setting_value FROM publications p 
+                JOIN section_settings ss ON p.section_id = ss.section_id 
+                WHERE p.publication_id = ? AND ss.setting_name = 'title' LIMIT 1");
+            $secStmt->execute([$sub['current_publication_id']]);
+            $secName = $secStmt->fetchColumn();
+            if ($secName) $sectionTitle = strip_tags($secName);
         }
 
         $reviewerName = trim(($reviewer['givenName'] ?? '') . ' ' . ($reviewer['familyName'] ?? ''));
@@ -225,6 +259,7 @@ switch ($action) {
         // Check if there is an existing draft
         $draftFile = $draftsDir . "/draft_{$reviewId}.json";
         $draftData = null;
+        clearstatcache(true, $draftFile);
         if (file_exists($draftFile)) {
             $draftData = json_decode(file_get_contents($draftFile), true);
         }
@@ -249,8 +284,9 @@ switch ($action) {
                 'submission_id' => $submissionId,
                 'title' => $title,
                 'abstract' => $abstract,
+                'section_title' => $sectionTitle,
                 'reviewer_name' => $reviewerName,
-                'reviewer_email' => $reviewerEmail,
+                'reviewer_email' => $reviewer['email'] ?? '',
                 'date_assigned' => $assignment['date_assigned'],
                 'date_due' => $assignment['date_due'],
                 'date_completed' => $assignment['date_completed'],
@@ -265,7 +301,7 @@ switch ($action) {
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         break;
 
-    // --- STREAM OR DOWNLOAD FILE (Protected by Email Gate) ---
+    // --- STREAM OR DOWNLOAD UNPUBLISHED MANUSCRIPT (Protected by Token + Email Gate) ---
     case 'stream_file':
         $reviewId = (int)($_GET['review_id'] ?? 0);
         $token = $_GET['token'] ?? '';
@@ -375,10 +411,10 @@ switch ($action) {
         $token = $input['token'] ?? '';
         $inputEmail = strtolower(trim($input['email'] ?? ''));
         $recommendation = (int)($input['recommendation'] ?? 0);
-        $authorComments = trim($input['author_comments'] ?? '');
-        $editorComments = trim($input['editor_comments'] ?? '');
-        $matrixScores = $input['matrix_scores'] ?? [];
-        $checklist = $input['checklist'] ?? [];
+        $authorComments = trim($input['comments_for_author'] ?? $input['author_comments'] ?? '');
+        $editorComments = trim($input['comments_for_editor'] ?? $input['editor_comments'] ?? '');
+        $matrixScores = $input['criteria_scores'] ?? $input['matrix_scores'] ?? [];
+        $checklist = $input['compliance_responses'] ?? $input['checklist'] ?? [];
 
         if (!$reviewId || !$recommendation) {
             echo json_encode(['success' => false, 'error' => 'Review ID and recommendation are required']);
@@ -417,7 +453,7 @@ switch ($action) {
 
         $fullAuthorComments = $authorComments . "<br/><br/>" . $matrixSummaryHtml;
 
-        // 1. Insert Author Comments (viewable = 1)
+        // 1. Insert Blinded Author Comments (viewable = 1)
         if (!empty($authorComments)) {
             $insAuth = $pdo->prepare("INSERT INTO submission_comments 
                 (comment_type, role_id, submission_id, assoc_id, author_id, comment_title, comments, date_posted, viewable) 
@@ -433,7 +469,7 @@ switch ($action) {
             $insEd->execute([$submissionId, $reviewId, $reviewerId, $editorComments, $now]);
         }
 
-        // 3. Update Review Assignment in OJS
+        // 3. Atomically Update Review Assignment in OJS
         $upd = $pdo->prepare("UPDATE review_assignments 
             SET recommendation = ?, date_completed = ?, last_modified = ? 
             WHERE review_id = ?");
@@ -447,12 +483,84 @@ switch ($action) {
 
         echo json_encode([
             'success' => true,
-            'message' => 'Review successfully submitted and synced to Davao Research Journal!',
+            'message' => 'Review successfully submitted and synced to Philair.Org OJS!',
             'submitted_at' => $now
         ]);
         break;
 
-    // --- ADMIN HELPER: GENERATE ACCESS LINK ---
+    // --- REQUEST DEADLINE EXTENSION ---
+    case 'request_extension':
+        $input = json_decode(file_get_contents('php://input'), true);
+        $reviewId = (int)($input['review_id'] ?? 0);
+        $token = $input['token'] ?? '';
+        $inputEmail = strtolower(trim($input['email'] ?? ''));
+        $days = (int)($input['days'] ?? 7);
+        $reason = trim($input['reason'] ?? '');
+
+        if (!$reviewId) {
+            echo json_encode(['success' => false, 'error' => 'Review ID required']);
+            exit;
+        }
+
+        $stmt = $pdo->prepare("SELECT * FROM review_assignments WHERE review_id = ?");
+        $stmt->execute([$reviewId]);
+        $assignment = $stmt->fetch();
+        if (!$assignment || !verifyReviewToken($reviewId, $token, $assignment['date_assigned'], $secretKey)) {
+            echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+            exit;
+        }
+
+        $reqData = [
+            'review_id' => $reviewId,
+            'submission_id' => $assignment['submission_id'],
+            'requested_days' => $days,
+            'reason' => $reason,
+            'requested_at' => date('Y-m-d H:i:s')
+        ];
+        file_put_contents($extensionsDir . "/ext_{$reviewId}.json", json_encode($reqData, JSON_PRETTY_PRINT));
+
+        echo json_encode([
+            'success' => true,
+            'message' => "Deadline extension request for {$days} days recorded successfully."
+        ]);
+        break;
+
+    // --- UPLOAD REVIEWER ATTACHMENT ---
+    case 'upload_attachment':
+        $reviewId = (int)($_POST['review_id'] ?? 0);
+        $token = $_POST['token'] ?? '';
+        $inputEmail = strtolower(trim($_POST['email'] ?? ''));
+
+        if (!$reviewId || empty($_FILES['file'])) {
+            echo json_encode(['success' => false, 'error' => 'Missing review_id or file']);
+            exit;
+        }
+
+        $stmt = $pdo->prepare("SELECT * FROM review_assignments WHERE review_id = ?");
+        $stmt->execute([$reviewId]);
+        $assignment = $stmt->fetch();
+        if (!$assignment || !verifyReviewToken($reviewId, $token, $assignment['date_assigned'], $secretKey)) {
+            echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+            exit;
+        }
+
+        $origName = basename($_FILES['file']['name']);
+        $safeName = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $origName);
+        $targetFile = $attachmentsDir . "/review_{$reviewId}_" . time() . "_{$safeName}";
+
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFile)) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Attachment uploaded successfully',
+                'filename' => $safeName,
+                'url' => 'api.php?action=stream_attachment&review_id=' . $reviewId . '&file=' . urlencode(basename($targetFile))
+            ]);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'Failed to store uploaded file']);
+        }
+        break;
+
+    // --- ADMIN / SYSTEM HELPER: GENERATE ACCESS LINK ---
     case 'get_link':
         $reviewId = (int)($_GET['review_id'] ?? 0);
         if (!$reviewId) {
@@ -467,7 +575,7 @@ switch ($action) {
             exit;
         }
         $token = generateReviewToken($reviewId, $row['date_assigned'], $secretKey);
-        $portalUrl = "https://review.davaoresearchjournal.ph/?reviewId={$reviewId}&token={$token}";
+        $portalUrl = "https://review.philair.org/?reviewId={$reviewId}&token={$token}";
         echo json_encode([
             'success' => true,
             'review_id' => $reviewId,
@@ -479,8 +587,9 @@ switch ($action) {
 
     default:
         echo json_encode([
-            'status' => 'Davao Research Journal Review API Live',
-            'version' => '2.0.0 (Email Gate Protected)'
+            'status' => 'Philair.Org Editorial Manager Review API Live',
+            'version' => '3.0.0 (ARWC - Zero-Trust Triple-Gate Protected)',
+            'time' => date('Y-m-d H:i:s')
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         break;
 }

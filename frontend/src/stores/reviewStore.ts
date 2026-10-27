@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+﻿import { defineStore } from 'pinia'
 import type { ReviewAssignment, EvaluationCriterion, ComplianceQuestion, ReviewDraft, ApiResponse } from '../types/review'
 
 const DEFAULT_CRITERIA: EvaluationCriterion[] = [
@@ -83,10 +83,10 @@ export const useReviewStore = defineStore('review', {
       return !state.isDeviceBlocked && !state.isNoTokenBlocked && !state.isEmailGateOpen && !!state.assignment
     },
     journalName(state): string {
-      return state.assignment?.journal?.name || state.detectedJournalName || 'Editorial Manager® Reviewer Portal'
+      return state.assignment?.journal?.name || state.detectedJournalName || 'Philair.Org Editorial Manager'
     },
     journalAcronym(state): string {
-      return state.assignment?.journal?.acronym || 'EM'
+      return state.assignment?.journal?.acronym || 'PHILAIR'
     },
     completionPercentage(state): number {
       let filled = 0
@@ -138,7 +138,7 @@ export const useReviewStore = defineStore('review', {
       this.token = tok
 
       // 4. Check cached email
-      const cached = localStorage.getItem(`drj_reviewer_email_${this.reviewId}`)
+      const cached = localStorage.getItem(`philair_reviewer_email_${this.reviewId}`)
       if (cached) {
         this.verifiedEmail = cached
         this.loadAssignment(cached)
@@ -178,7 +178,7 @@ export const useReviewStore = defineStore('review', {
         // Verification successful!
         this.assignment = data.data
         this.verifiedEmail = email
-        localStorage.setItem(`drj_reviewer_email_${this.reviewId}`, email)
+        localStorage.setItem(`philair_reviewer_email_${this.reviewId}`, email)
         this.isEmailGateOpen = false
         this.gateError = ''
 

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <header class="bg-primary text-white shadow-3 z-top" style="border-bottom: 2px solid #D4A017;">
     <!-- Top Bar -->
     <div class="q-px-md q-py-xs row items-center justify-between no-wrap">
@@ -62,9 +62,9 @@
               <q-item-section class="text-caption">Decline Review Assignment</q-item-section>
             </q-item>
             <q-separator />
-            <q-item clickable v-close-popup href="https://davaoresearchjournal.ph" target="_blank">
+            <q-item clickable v-close-popup href="https://philair.org" target="_blank">
               <q-item-section avatar><q-icon name="open_in_new" color="grey-7" /></q-item-section>
-              <q-item-section class="text-caption">Davao Research Journal</q-item-section>
+              <q-item-section class="text-caption">Philair.Org Home</q-item-section>
             </q-item>
           </q-list>
         </q-btn-dropdown>
@@ -129,7 +129,7 @@ function downloadDocument() {
 }
 
 function openInstructions() {
-  alert('DAVAO RESEARCH JOURNAL - REVIEWER GUIDELINES:\n\n1. Maintain confidentiality of all unpublished manuscript contents.\n2. Provide constructive, respectful, and evidence-based critiques.\n3. Identify any suspected plagiarism, duplicate publication, or conflict of interest in the Confidential Comments to Editor.\n4. Complete and submit evaluation within the agreed review timeline.')
+  alert('Philair.Org Home - REVIEWER GUIDELINES:\n\n1. Maintain confidentiality of all unpublished manuscript contents.\n2. Provide constructive, respectful, and evidence-based critiques.\n3. Identify any suspected plagiarism, duplicate publication, or conflict of interest in the Confidential Comments to Editor.\n4. Complete and submit evaluation within the agreed review timeline.')
 }
 </script>
 

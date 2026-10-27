@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <q-dialog :model-value="store.isDeviceBlocked" persistent maximized transition-show="fade" transition-hide="fade">
     <div class="row items-center justify-center full-width full-height bg-slate-950-backdrop q-pa-md">
       <q-card class="bg-white text-slate-800 rounded-borders shadow-24" style="max-width: 440px; width: 100%; border-radius: 16px; overflow: hidden;">
@@ -57,7 +57,7 @@
           </div>
 
           <div class="text-center text-caption text-grey-6 q-mt-xs q-pt-sm" style="border-top: 1px solid #f1f5f9;">
-            Need help? Contact the <a href="mailto:editor@davaoresearchjournal.ph" class="text-primary text-weight-bold">Editorial Office</a>.
+            Need help? Contact the <a href="mailto:editor@philair.org" class="text-primary text-weight-bold">Editorial Office</a>.
           </div>
         </q-card-section>
       </q-card>
