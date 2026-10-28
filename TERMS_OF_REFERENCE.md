@@ -25,14 +25,14 @@ This project has successfully delivered a **complete 3-Module Editorial Suite** 
 All three (3) essential publishing modules have been verified and operationalized:
 
 ### Module 1: Author Submission & Tracking Module *(Completed)*
-* **Live System URL:** `https://davaoresearchjournal.ph/index.php/drj/submission/wizard`
+* **Live System URL:** `https://davaoresearchjournal.ph/index.php/main/submission/wizard` (or `/drj/submission/wizard`)
 * **Features Delivered:**
   1. Multi-step guided author submission wizard.
   2. Automated file uploads (.docx, .pdf, supplementary data) with author checklist verification.
   3. Real-time submission milestone tracking.
 
 ### Module 2: Editorial Management & Decision Hub *(Completed)*
-* **Live System URL:** `https://davaoresearchjournal.ph/index.php/drj/workflow/index`
+* **Live System URL:** `https://davaoresearchjournal.ph/index.php/main/workflow/index` (or `/drj/workflow/index`)
 * **Features Delivered:**
   1. Editorial triage and section editor assignment cockpit.
   2. 1-click reviewer search, assignment, and tracking.

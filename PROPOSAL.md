@@ -56,7 +56,7 @@ By strategically connecting **Open Journal Systems (OJS 3.4)** with a custom **D
 ## 3. Module Breakdown & Live Capabilities
 
 ### Module 1: Author Submission & Tracking Module
-* **Location:** `https://davaoresearchjournal.ph/index.php/drj/submission/wizard`
+* **Location:** `https://davaoresearchjournal.ph/index.php/main/submission/wizard` (or `https://davaoresearchjournal.ph/index.php/drj/submission/wizard`)
 * **Status:** **Completed & Operational**
 * **Capabilities:**
   1. Author self-registration and ORCID profile linkage.
@@ -65,7 +65,7 @@ By strategically connecting **Open Journal Systems (OJS 3.4)** with a custom **D
   4. Author live tracking dashboard with automated confirmation notifications.
 
 ### Module 2: Editorial Management & Decision Hub
-* **Location:** `https://davaoresearchjournal.ph/index.php/drj/workflow/index`
+* **Location:** `https://davaoresearchjournal.ph/index.php/main/workflow/index` (or `https://davaoresearchjournal.ph/index.php/drj/workflow/index`)
 * **Status:** **Completed & Operational**
 * **Capabilities:**
   1. Editorial desk triage: Submission review, section assignment, and editor assignment.
