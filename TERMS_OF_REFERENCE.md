@@ -111,21 +111,7 @@ Date: October 25, 2026
 
 **FOR THE PROCURING ENTITY (DORSU / DRJ):**
 
-______________________________________  
-**EDITOR-IN-CHIEF**  
-*Davao Research Journal (DRJ)*  
-Date: ________________________  
-
-<br>
-
-______________________________________  
-**VICE PRESIDENT FOR RESEARCH, EXTENSION & INNOVATION**  
-*Davao Oriental State University (DORSU)*  
-Date: ________________________  
-
-<br>
-
-______________________________________  
-**UNIVERSITY PRESIDENT**  
-*Davao Oriental State University (DORSU)*  
-Date: ________________________  
+| | |
+| :--- | :--- |
+| <br><br>______________________________________<br>**DR. EDISON MACUSI**<br>*Editor-in-Chief, Davao Research Journal (DRJ)*<br>*Davao Oriental State University (DORSU)*<br>Date: ________________________ | <br><br>______________________________________<br>**DR. JONATHAN CABRERA**<br>*Research Director*<br>*Davao Oriental State University (DORSU)*<br>Date: ________________________ |
+| <br><br>______________________________________<br>**DR. EMILY ANTONIO**<br>*VP for Research, Extension and Innovation*<br>*Davao Oriental State University (DORSU)*<br>Date: ________________________ | <br><br>______________________________________<br>**DR. ROY G. PONCE**<br>*University President*<br>*Davao Oriental State University (DORSU)*<br>Date: ________________________ |  

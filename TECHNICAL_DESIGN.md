@@ -245,3 +245,20 @@ When OJS receives an inbound request matching `reviewer-portal` or `em-review`, 
 | **TC-05** | Input correct reviewer email (`support@manusci.com`) | Gate unlocks immediately; manuscript PDF / Word rendered; auto-save engine activates. | **PASSED** |
 | **TC-06** | Review submission transmittal | OJS `review_assignments` updated (`date_completed = NOW()`); comments recorded; Certificate modal opens. | **PASSED** |
 | **TC-07** | Outbound Invitation Email | Dispatched through Resend SMTP port 465 SSL to external Gmail inbox. | **PASSED** |
+
+---
+
+## 10. Architectural Sign-Off & Institutional Approval
+
+**Prepared and Architected by:**
+
+**DARRYL M. NUYDA**  
+*Founder & Lead Software Architect, MANUSCI.COM*  
+*Technical Lead, Davao Research Journal*  
+
+**Reviewed, Endorsed & Approved by (DORSU / DRJ):**
+
+| | |
+| :--- | :--- |
+| <br><br>______________________________________<br>**DR. EDISON MACUSI**<br>*Editor-in-Chief, Davao Research Journal (DRJ)*<br>*Davao Oriental State University (DORSU)* | <br><br>______________________________________<br>**DR. JONATHAN CABRERA**<br>*Research Director*<br>*Davao Oriental State University (DORSU)* |
+| <br><br>______________________________________<br>**DR. EMILY ANTONIO**<br>*VP for Research, Extension and Innovation*<br>*Davao Oriental State University (DORSU)* | <br><br>______________________________________<br>**DR. ROY G. PONCE**<br>*University President*<br>*Davao Oriental State University (DORSU)* |

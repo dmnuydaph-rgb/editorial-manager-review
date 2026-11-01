@@ -157,15 +157,9 @@ Commercial enterprise suites (Elsevier Editorial Manager® or Clarivate ScholarO
 
 <br>
 
-**Acknowledged & Approved by:**
+**Acknowledged, Endorsed & Approved by:**
 
-______________________________________  
-**EDITOR-IN-CHIEF**  
-*Davao Research Journal (DRJ)*  
-*Davao Oriental State University (DORSU)*  
-
-<br>
-
-______________________________________  
-**VICE PRESIDENT FOR RESEARCH & EXTENSION**  
-*Davao Oriental State University (DORSU)*  
+| | |
+| :--- | :--- |
+| <br><br>______________________________________<br>**DR. EDISON MACUSI**<br>*Editor-in-Chief, Davao Research Journal (DRJ)*<br>*Davao Oriental State University (DORSU)* | <br><br>______________________________________<br>**DR. JONATHAN CABRERA**<br>*Research Director*<br>*Davao Oriental State University (DORSU)* |
+| <br><br>______________________________________<br>**DR. EMILY ANTONIO**<br>*VP for Research, Extension and Innovation*<br>*Davao Oriental State University (DORSU)* | <br><br>______________________________________<br>**DR. ROY G. PONCE**<br>*University President*<br>*Davao Oriental State University (DORSU)* |  
